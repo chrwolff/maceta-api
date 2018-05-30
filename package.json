@@ -1,0 +1,22 @@
+{
+  "name": "maceta",
+  "version": "1.0.0",
+  "description": "Testbed for Fiori Applications",
+  "main": "main.js",
+  "author": "Christian Wolff",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "directory-tree": "^2.1.0",
+    "express": "^4.16.3",
+    "fs-extra": "^6.0.1",
+    "http": "^0.0.0",
+    "minimist": "^1.2.0",
+    "opn": "^5.3.0",
+    "path": "^0.12.7",
+    "prompt-radio": "^1.2.1",
+    "readline-ui": "^2.2.3"
+  }
+}
