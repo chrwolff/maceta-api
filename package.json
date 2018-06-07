@@ -10,6 +10,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "directory-tree": "^2.1.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "express": "^4.16.3",
     "fs-extra": "^6.0.1",
     "http": "^0.0.0",
@@ -19,8 +20,5 @@
     "prompt-radio": "^1.2.1",
     "readline-ui": "^2.2.3"
   },
-  "dependencies": {
-    "eslint-plugin-prettier": "^2.6.0",
-    "global": "^4.3.2"
-  }
+  "dependencies": {}
 }
