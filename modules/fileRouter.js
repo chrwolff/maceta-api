@@ -7,7 +7,7 @@ const babel = require("babel-core");
 module.exports = function({ apiRoutes, configuration, shellConfigObject }) {
   function resolveFile({ reqPath, res, urlPath, babelJit = true }) {
     var fullPath = reqPath;
-    if (reqPath.substring(0, 1) === ".") {
+    if (!path.isAbsolute(reqPath)) {
       fullPath = path.join(configuration.basePath, reqPath);
     }
 

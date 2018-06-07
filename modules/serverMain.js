@@ -25,7 +25,7 @@ module.exports = function({ configuration, username, password }) {
     configuration.localLib = "../lib";
   }
 
-  if (configuration.localLib.substr(0, 1) === ".") {
+  if (!path.isAbsolute(configuration.localLib)) {
     configuration.localLib = path.join(__dirname, "..", configuration.localLib);
   }
 

@@ -16,12 +16,12 @@ const consoleColors = {
   emphasize: "\x1b[1m"
 };
 
-// get arguments from CLI.
+// get arguments from CLI
 const args = minimist(process.argv.slice(2));
 
 // start the whole process by reading the config file
 fileSystem.readFile(
-  path.join(__dirname, "config.default.json"),
+  path.join(__dirname, "config.json"),
   "utf8",
   processConfig
 );
@@ -66,13 +66,18 @@ async function processConfig(err, data) {
   // return input control from any prompt to the console
   readlineUi.close();
 
-  // make the default resource paths absolute
+  defaultConfig.resourcePath = defaultConfig.resourcePath || ".";
+  defaultConfig.resourceMap = defaultConfig.resourceMap || {};
+  // make the resource paths absolute
   Object.keys(defaultConfig.resourceMap).forEach(key => {
-    defaultConfig.resourceMap[key] = path.join(
-      __dirname,
-      defaultConfig.projectsPath,
-      defaultConfig.resourceMap[key]
-    );
+    const mapPath = defaultConfig.resourceMap[key];
+    if (!path.isAbsolute(mapPath)) {
+      defaultConfig.resourceMap[key] = path.join(
+        __dirname,
+        defaultConfig.resourcePath,
+        mapPath
+      );
+    }
   });
 
   // create the final config object

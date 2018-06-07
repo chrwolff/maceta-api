@@ -1,0 +1,7 @@
+{
+  "localLib": "./lib",
+  "localHostname": "localhost",
+  "localPort": 4000,
+  "resourcePath": "..",
+  "resourceMap": {}
+}

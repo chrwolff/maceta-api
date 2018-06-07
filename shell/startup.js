@@ -61,7 +61,7 @@
       }
 
       // set language from url parameter sap-language, or first entry in shell config language list
-      var languageCodes = getLanguageCodes(appConfig);
+      let languageCodes = getLanguageCodes(appConfig);
       let currentLanguage = urlParams.get("sap-language") || languageCodes[0];
       currentLanguage = currentLanguage.toLowerCase();
       createLanguageMenu(languageCodes, currentLanguage);
@@ -178,32 +178,12 @@
         return;
       }
 
-      //var menuButton = new sap.m.Button("languageMenuButton", {});
-
-      shellRenderer.addUserAction(
-        "sap.m.Button",
+      shellRenderer.addHeaderItem(
         {
           id: "languageMenuButton",
           icon: "sap-icon://globe",
-          text: "Language",
+          tooltip: "Language",
           press: showLanguageDialog
-        },
-        true,
-        true
-      );
-
-      shellRenderer.addToolAreaItem(
-        {
-          id: "testButton",
-          icon: "sap-icon://documents",
-          expandable: true,
-          press: function(evt) {
-            window.alert("Press");
-          },
-          expand: function(evt) {
-            // This function will be called on the press event of the "expand" button. The result of "expand" event in the UI must be determined by the developer
-            window.alert("Expand");
-          }
         },
         true,
         true
