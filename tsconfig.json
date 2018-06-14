@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "outDir": "testApp/odata",
+    "rootDir": "testApp/odata/src",
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}

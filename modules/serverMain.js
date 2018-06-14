@@ -3,6 +3,7 @@ const path = require("path");
 const fileSystem = require("fs-extra");
 const fileRouter = require("./fileRouter");
 const sapRouter = require("./sapRouter");
+const odataRouter = require("./odataRouter");
 
 const express = require("express");
 const app = express();
@@ -68,6 +69,8 @@ module.exports = function({ configuration, username, password }) {
         } catch (e) {
           shellConfigObject = {};
         }
+
+        odataRouter({ app, basePath: configuration.basePath });
 
         sapRouter({
           apiRoutes,

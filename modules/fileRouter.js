@@ -114,7 +114,7 @@ module.exports = function({ apiRoutes, configuration, shellConfigObject }) {
 
   // every other route will be resolved as a file access relative to the applicationPath
   apiRoutes.get("/*", (req, res) => {
-    const resourcePath = "./" + url.parse(req.url).pathname;
+    const resourcePath = path.join(".", url.parse(req.url).pathname);
     resolveFile({ reqPath: resourcePath, res, urlPath: resourcePath });
   });
 };

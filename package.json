@@ -5,7 +5,12 @@
   "main": "main.js",
   "author": "Christian Wolff",
   "license": "MIT",
+  "scripts": {
+    "start": "node main.js"
+  },
   "devDependencies": {
+    "@types/mongodb": "^3.0.19",
+    "@types/mongoose": "^5.0.15",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -15,6 +20,11 @@
     "fs-extra": "^6.0.1",
     "http": "^0.0.0",
     "minimist": "^1.2.0",
+    "mongodb": "^3.0.10",
+    "mongoose": "^5.1.4",
+    "odata-v4-mongodb": "^0.1.12",
+    "odata-v4-server": "^0.2.12",
+    "odata-v4-service-metadata": "^0.1.6",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "prompt-radio": "^1.2.1",
