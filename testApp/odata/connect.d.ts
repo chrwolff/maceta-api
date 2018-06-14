@@ -1,2 +1,2 @@
-declare var _default: () => Promise<any>;
-export default _default;
+import { Db } from "mongodb";
+export default function (): Promise<Db>;

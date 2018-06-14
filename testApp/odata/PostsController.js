@@ -11,39 +11,24 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const odata_v4_server_1 = require("odata-v4-server");
 const odata_v4_mongodb_1 = require("odata-v4-mongodb");
 const connect_1 = require("./connect");
 const mongodb_1 = require("mongodb");
-class Post {
-}
-__decorate([
-    odata_v4_server_1.Edm.Key,
-    odata_v4_server_1.Edm.String,
-    odata_v4_server_1.Edm.Computed
-], Post.prototype, "id", void 0);
-__decorate([
-    odata_v4_server_1.Edm.String,
-    odata_v4_server_1.Edm.Required
-], Post.prototype, "userName", void 0);
-__decorate([
-    odata_v4_server_1.Edm.String
-], Post.prototype, "text", void 0);
-__decorate([
-    odata_v4_server_1.Edm.String
-], Post.prototype, "title", void 0);
+const PostsModel_1 = require("./PostsModel");
 let PostsController = class PostsController extends odata_v4_server_1.ODataController {
     find(query) {
-        return __awaiter(this, void 0, Promise, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const db = yield connect_1.default();
             const mongodbQuery = odata_v4_mongodb_1.createQuery(query);
-            if (typeof mongodbQuery.query.id == "string")
-                mongodbQuery.query.id = new mongodb_1.ObjectID(mongodbQuery.query.id);
+            if (typeof mongodbQuery.query._id == "string")
+                mongodbQuery.query._id = new mongodb_1.ObjectID(mongodbQuery.query._id);
             let result = typeof mongodbQuery.limit == "number" && mongodbQuery.limit === 0
                 ? []
                 : yield db
@@ -65,13 +50,14 @@ let PostsController = class PostsController extends odata_v4_server_1.ODataContr
         });
     }
     insert(data) {
-        return __awaiter(this, void 0, Promise, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const db = yield connect_1.default();
+            data.time = Date.now();
             return yield db
                 .collection("Posts")
                 .insertOne(data)
                 .then(result => {
-                data.id = result.insertedId;
+                data._id = result.insertedId;
                 return data;
             });
         });
@@ -86,7 +72,7 @@ __decorate([
     __param(0, odata_v4_server_1.odata.body)
 ], PostsController.prototype, "insert", null);
 PostsController = __decorate([
-    odata_v4_server_1.odata.type(Post)
+    odata_v4_server_1.odata.type(PostsModel_1.default)
 ], PostsController);
 exports.PostsController = PostsController;
 //# sourceMappingURL=PostsController.js.map

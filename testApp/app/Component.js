@@ -34,8 +34,7 @@ sap.ui.define(["sap/ui/core/UIComponent"], function(UIComponent) {
     const binding = timeline.getBinding("content");
     const context = binding.create({
       userName: "Johnny",
-      text: "Hello World",
-      title: "der Beste"
+      text: "Hello World"
     });
     context.created().then(() => binding.refresh());
   }
@@ -44,7 +43,10 @@ sap.ui.define(["sap/ui/core/UIComponent"], function(UIComponent) {
     return new sap.suite.ui.commons.TimelineItem({
       userName: "{data>userName}",
       text: "{data>text}",
-      title: "{data>title}"
+      dateTime: {
+        path: "data>time",
+        formatter: hammertime => new Date(hammertime)
+      }
     });
   }
 });

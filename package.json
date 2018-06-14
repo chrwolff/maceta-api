@@ -6,7 +6,8 @@
   "author": "Christian Wolff",
   "license": "MIT",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "createData": "node testApp/odata/build/createData.js"
   },
   "devDependencies": {
     "@types/mongodb": "^3.0.19",
@@ -21,14 +22,18 @@
     "http": "^0.0.0",
     "minimist": "^1.2.0",
     "mongodb": "^3.0.10",
-    "mongoose": "^5.1.4",
     "odata-v4-mongodb": "^0.1.12",
     "odata-v4-server": "^0.2.12",
     "odata-v4-service-metadata": "^0.1.6",
     "opn": "^5.3.0",
     "path": "^0.12.7",
     "prompt-radio": "^1.2.1",
-    "readline-ui": "^2.2.3"
+    "random-hammertime": "^1.0.0",
+    "random-words": "^1.1.0",
+    "readline-ui": "^2.2.3",
+    "sillyname": "^0.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^6.0.0"
+  }
 }

@@ -6,9 +6,11 @@
     "declaration": true,
     "experimentalDecorators": true,
     "outDir": "testApp/odata",
-    "rootDir": "testApp/odata/src",
     "moduleResolution": "node"
   },
+  "include": [
+    "testApp/odata-src/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "lib"

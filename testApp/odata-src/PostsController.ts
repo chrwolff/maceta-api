@@ -2,21 +2,7 @@ import { ODataController, Edm, odata, ODataQuery } from "odata-v4-server";
 import { createQuery } from "odata-v4-mongodb";
 import connect from "./connect";
 import { ObjectID } from "mongodb";
-
-class Post {
-  @Edm.Key
-  @Edm.String
-  @Edm.Computed
-  id: ObjectID;
-
-  @Edm.String
-  @Edm.Required
-  userName;
-
-  @Edm.String text;
-
-  @Edm.String title;
-}
+import Post from "./PostsModel";
 
 @odata.type(Post)
 export class PostsController extends ODataController {
@@ -24,8 +10,8 @@ export class PostsController extends ODataController {
   async find(@odata.query query: ODataQuery): Promise<Post[]> {
     const db = await connect();
     const mongodbQuery = createQuery(query);
-    if (typeof mongodbQuery.query.id == "string")
-      mongodbQuery.query.id = new ObjectID(mongodbQuery.query.id);
+    if (typeof mongodbQuery.query._id == "string")
+      mongodbQuery.query._id = new ObjectID(mongodbQuery.query._id);
     let result =
       typeof mongodbQuery.limit == "number" && mongodbQuery.limit === 0
         ? []
@@ -50,11 +36,12 @@ export class PostsController extends ODataController {
   @odata.POST
   async insert(@odata.body data: any): Promise<Post> {
     const db = await connect();
+    data.time = Date.now();
     return await db
       .collection("Posts")
       .insertOne(data)
       .then(result => {
-        data.id = result.insertedId;
+        data._id = result.insertedId;
         return data;
       });
   }
