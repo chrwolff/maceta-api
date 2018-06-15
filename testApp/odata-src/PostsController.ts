@@ -30,6 +30,13 @@ export class PostsController extends ODataController {
         .project(mongodbQuery.projection)
         .count(false);
     }
+    result.unshift({
+      _id: "newPost",
+      userName: "",
+      text: "",
+      time: Date.now(),
+      isTemplate: true
+    })
     return result;
   }
 

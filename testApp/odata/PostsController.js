@@ -46,6 +46,13 @@ let PostsController = class PostsController extends odata_v4_server_1.ODataContr
                     .project(mongodbQuery.projection)
                     .count(false);
             }
+            result.unshift({
+                _id: "newPost",
+                userName: "",
+                text: "",
+                time: Date.now(),
+                isTemplate: true
+            });
             return result;
         });
     }

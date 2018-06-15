@@ -11,7 +11,6 @@ sap.ui.define(["sap/ui/core/UIComponent"], function(UIComponent) {
     },
 
     createContent: function() {
-      const button = new sap.m.Button({ text: "add", press: addItem });
       const timeline = new sap.suite.ui.commons.Timeline("timeline");
       timeline.bindAggregation("content", {
         path: "data>/Posts",
@@ -19,7 +18,7 @@ sap.ui.define(["sap/ui/core/UIComponent"], function(UIComponent) {
       });
       const page = new sap.m.Page({
         title: "{i18n>pageTitle}",
-        content: [button, timeline]
+        content: timeline
       });
       const app = new sap.m.App({
         pages: page
@@ -46,7 +45,29 @@ sap.ui.define(["sap/ui/core/UIComponent"], function(UIComponent) {
       dateTime: {
         path: "data>time",
         formatter: hammertime => new Date(hammertime)
-      }
+      },
+      embeddedControl: new sap.m.VBox({
+        items: [
+          new sap.m.Input({
+            value: "{data>userName}",
+            visible: "{data>isTemplate}",
+            placeholder: "{i18n>newReviewUserNameHint}"
+          }),
+          new sap.m.TextArea({
+            value: "{data>text}",
+            growing: true,
+            width: "100%",
+            editable: "{data>isTemplate}",
+            placeholder: "{i18n>newReviewUserCommentHint}",
+            valueLiveUpdate: true
+          }),
+          new sap.m.Button({
+            visible: "{data>isTemplate}",
+            text: "{i18n>newReviewButtonText}",
+            press: () => null
+          })
+        ]
+      })
     });
   }
 });

@@ -14,4 +14,6 @@ export default class Post {
   @Edm.String text;
 
   @Edm.Int16 time;
+
+  @Edm.Boolean isTemplate;
 }

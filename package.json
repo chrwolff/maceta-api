@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node main.js",
-    "createData": "node testApp/odata/build/createData.js"
+    "createData": "node testApp/odata/createData.js"
   },
   "devDependencies": {
     "@types/mongodb": "^3.0.19",

@@ -5,4 +5,4 @@ config.json
 testApp/variables.env
 testApp/odata/*
 !testApp/odata/.gitkeep
-
+yarn-error.log

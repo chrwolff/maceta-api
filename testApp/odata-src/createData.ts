@@ -20,7 +20,8 @@ function getRandomDocs() {
     docs.push({
       userName: generateName(),
       text: randomWords({ min: 10, max: 100, join: " " }),
-      time: randomTimestamp()
+      time: randomTimestamp(),
+      isTemplate: false
     });
   }
   return docs;
