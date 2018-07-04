@@ -7,9 +7,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "cwd": "${workspaceFolder}\\..\\fioriAnalyticsConfig",
-      "program": "${workspaceFolder}\\main.js"
+      "name": "Launch Test App",
+      "cwd": "${workspaceFolder}/testApp",
+      "program": "${workspaceFolder}/main.js"
     }
   ]
 }

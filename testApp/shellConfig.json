@@ -1,0 +1,10 @@
+{
+  "default": {
+    "app": {
+      "languages": ["en", "de"],
+      "ui5ComponentName": "test"
+    },
+    "resourcePath": {
+    }
+  }
+}

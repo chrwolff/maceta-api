@@ -30,38 +30,12 @@ module.exports = function({ apiRoutes, configuration }) {
     });
   });
 
-  apiRoutes.all("/sap/opu/odata/*", (req, res) => {
-    const fullPath = url.parse(req.url).pathname;
-    const serviceName = fullPath
-      .split("/")
-      .slice(4)
-      .join("/");
-    res.statusCode = 500;
-    res.send();
-  });
-
   apiRoutes.all("/sap/bc/ui2/start_up", (req, res) => {
     const config = {
-      version: "1.2.01",
-      dateFormat: "1",
-      tislcal: [],
-      email: "Christian.Wolff@readsoft.com",
-      firstName: "Christian",
-      fullName: "Christian Wolff",
-      id: "WOLFF",
-      language: "EN",
-      languageBcp47: "en",
-      lastName: "Wolff",
-      menu: null,
-      numberFormat: "",
-      rtl: false,
-      theme: "sap_belize_plus",
-      timeFormat: "0",
-      timeZone: "CET",
-      welcomeMessage: "",
-      isJamActive: false,
-      isEmbReportingActive: false,
-      initialTarget: []
+      firstName: "Fiori",
+      lastName: "Maceta",
+      fullName: "Fiori Maceta",
+      id: "MACETA"
     };
     res.send(JSON.stringify(config));
   });

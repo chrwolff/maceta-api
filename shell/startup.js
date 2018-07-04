@@ -141,7 +141,7 @@
   // insert button for language selection into shell menu, if the shell has
   // the necessary functionality
   function createLanguageMenu(languageCodes, currentLanguage) {
-    var shellRenderer = sap.ushell.Container.getRenderer();
+    let shellRenderer = sap.ushell.Container.getRenderer();
     let lifeCycleService = sap.ushell.Container.getService("AppLifeCycle");
     if (typeof shellRenderer.addActionButton === "function") {
       addLanguageMenuToShell();
