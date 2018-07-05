@@ -1,8 +1,5 @@
 node_modules
-lib/*
-!lib/.gitkeep
+ui5-lib/*
+!ui5-lib/.gitkeep
 config.json
-testApp/variables.env
-testApp/odata/*
-!testApp/odata/.gitkeep
 yarn-error.log
