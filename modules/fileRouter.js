@@ -4,11 +4,11 @@ const path = require("path");
 const getMimeType = require("./mimeTypes");
 const babel = require("babel-core");
 
-module.exports = function({ apiRoutes, configuration, shellConfigObject }) {
+module.exports = function({ apiRoutes, configuration, shellConfiguration }) {
   function resolveFile({ reqPath, res, urlPath, babelJit = true }) {
     var fullPath = reqPath;
     if (!path.isAbsolute(reqPath)) {
-      fullPath = path.join(configuration.basePath, reqPath);
+      fullPath = path.join(configuration.componentPath, reqPath);
     }
 
     fileSystem.readFile(fullPath, function(err, data) {
@@ -49,7 +49,7 @@ module.exports = function({ apiRoutes, configuration, shellConfigObject }) {
   apiRoutes.all("/shellConfig", (req, res) => {
     let mimeType = getMimeType({ extension: ".json" });
     res.setHeader("Content-type", mimeType);
-    res.send(JSON.stringify(shellConfigObject));
+    res.send(JSON.stringify(shellConfiguration));
   });
 
   // requests to "/shell/*" send back files from the shell folder

@@ -1,5 +1,9 @@
 node_modules
-ui5-lib/*
-!ui5-lib/.gitkeep
-config.json
 yarn-error.log
+.vscode
+ui5-lib
+tests
+
+config.template.json
+config.json
+main.js

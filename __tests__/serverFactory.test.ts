@@ -1,47 +1,71 @@
 import {
-  ServerConfiguration,
+  ServerParameters,
   createServer,
   Server,
   ServerErrors,
-  RuntimeDetails,
   setServerMock,
   setFilesystemMock
 } from "../ts/serverFactory";
+import { ServerConfiguration, ServerProperties } from "../ts/serverMain";
 import * as randomstring from "randomstring";
 import * as path from "path";
 
-const specRuntimeDetails: RuntimeDetails = {
-  baseUrl: randomstring.generate(),
-  indexUrl: randomstring.generate(),
-  shellUrl: randomstring.generate()
-};
+const specBaseUrl = randomstring.generate();
+const specShellUrl = randomstring.generate();
 
 const startServer = jest.fn(
-  () =>
+  (configuration: ServerConfiguration): Promise<ServerProperties> =>
     new Promise((resolve, reject) => {
-      let spec: any = { ...specRuntimeDetails };
-      spec.serverStopFunction = stopServer;
+      const spec: ServerProperties = {
+        url: configuration.shellId ? specShellUrl : specBaseUrl,
+        stopFunction: stopServer
+      };
       resolve(spec);
     })
 );
 const stopServer = jest.fn(() => null);
 setServerMock(startServer);
 
-const specServerConfig_1: ServerConfiguration = {
+const componentId = randomstring.generate();
+
+const specServerParams_1: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
+  localLibraryPath: "./" + randomstring.generate(),
   hostname: randomstring.generate(),
   port: 3000
 };
 
-const specServerConfig_2: ServerConfiguration = {
-  componentPath: "./" + randomstring.generate()
+const specServerConfig_1: ServerConfiguration = {
+  componentPath: path.join(process.cwd(), specServerParams_1.componentPath),
+  localLibraryPath: path.join(
+    process.cwd(),
+    specServerParams_1.localLibraryPath
+  ),
+  hostname: specServerParams_1.hostname,
+  port: specServerParams_1.port,
+  resourceMap: {
+    [componentId]: path.join(process.cwd(), specServerParams_1.componentPath)
+  },
+  shellId: null,
+  oDataPath: null
 };
 
-const specServerConfig_3: ServerConfiguration = {
-  componentPath: "./" + randomstring.generate()
+const specServerParams_2: ServerParameters = {
+  componentPath: "./" + randomstring.generate(),
+  localLibraryPath: ""
 };
 
-const componentId = randomstring.generate();
+const specServerParams_3: ServerParameters = {
+  componentPath: "./" + randomstring.generate(),
+  localLibraryPath: ""
+};
+
+const specServerParams_4: ServerParameters = {
+  componentPath: specServerParams_1.componentPath,
+  localLibraryPath: "",
+  createShellConfig: true
+};
+
 const fsMock = {
   readJson(file) {
     return new Promise((resolve, reject) => {
@@ -49,7 +73,7 @@ const fsMock = {
         file ===
         path.join(
           process.cwd(),
-          specServerConfig_1.componentPath,
+          specServerParams_1.componentPath,
           "manifest.json"
         )
       ) {
@@ -62,7 +86,7 @@ const fsMock = {
         file ===
         path.join(
           process.cwd(),
-          specServerConfig_2.componentPath,
+          specServerParams_2.componentPath,
           "manifest.json"
         )
       ) {
@@ -71,7 +95,7 @@ const fsMock = {
         file ===
         path.join(
           process.cwd(),
-          specServerConfig_3.componentPath,
+          specServerParams_3.componentPath,
           "manifest.json"
         )
       ) {
@@ -84,7 +108,17 @@ const fsMock = {
 };
 setFilesystemMock(fsMock);
 
-const specShellConfig = {
+const specSimpleShellConfig = {
+  default: {
+    app: {
+      languages: [],
+      ui5ComponentName: componentId
+    },
+    resourcePath: {}
+  }
+};
+
+const specAdvanceShellConfig = {
   default: {
     app: {
       languages: ["en", "de"],
@@ -94,13 +128,14 @@ const specShellConfig = {
   }
 };
 
-test("createServer returns a Server that starts with correct urls and can be stopped", async () => {
+test("createServer returns a Promise, that contains a Server that starts with correct urls and can be stopped", async () => {
   expect.assertions(3);
-  const server: Server = createServer(specServerConfig_1);
+  const serverPromise: Promise<Server> = createServer(specServerParams_1);
+  const server: Server = await serverPromise;
   startServer.mockClear();
-  const runtimeDetails = await server.start();
+  const url = await server.start();
   expect(startServer.mock.calls.length).toBe(1);
-  expect(runtimeDetails).toMatchObject(specRuntimeDetails);
+  expect(url).toBe(specBaseUrl);
   stopServer.mockClear();
   await server.stop();
   expect(stopServer.mock.calls.length).toBe(1);
@@ -108,22 +143,16 @@ test("createServer returns a Server that starts with correct urls and can be sto
 
 test("the correct server configuration can be read", async () => {
   expect.assertions(2);
-  const server: Server = createServer(specServerConfig_1);
+  const server: Server = await createServer(specServerParams_1);
   const errorFlag = await server.errorPromise;
   expect(errorFlag).toBeFalsy();
-  expect(server.configuration).toMatchObject(specServerConfig_1);
+  expect(server.serverConfiguration).toMatchObject(specServerConfig_1);
 });
 
-test("the wrong server configuration sets the error flag and the server can not be started", async () => {
-  expect.assertions(2);
-  const server: Server = createServer(specServerConfig_2);
+test("the wrong server configuration sets the error flag and returns no server", async () => {
+  expect.assertions(1);
   try {
-    await server.errorPromise;
-  } catch (e) {
-    expect(e).toBe(ServerErrors.manifestNotFound);
-  }
-  try {
-    await server.start();
+    await createServer(specServerParams_2);
   } catch (e) {
     expect(e).toBe(ServerErrors.manifestNotFound);
   }
@@ -131,10 +160,28 @@ test("the wrong server configuration sets the error flag and the server can not 
 
 test("manifest contains no entry for id", async () => {
   expect.assertions(1);
-  const server: Server = createServer(specServerConfig_3);
   try {
-    await server.errorPromise;
+    await createServer(specServerParams_3);
   } catch (e) {
     expect(e).toBe(ServerErrors.manifestContainsNoId);
   }
+});
+
+test("shellConfig is created automatically", async () => {
+  expect.assertions(3);
+  const server: Server = await createServer(specServerParams_4);
+  const shellConfig = server.shellConfiguration;
+  expect(shellConfig).toMatchObject(specSimpleShellConfig);
+  startServer.mockClear();
+  const url = await server.start();
+  expect(startServer.mock.calls.length).toBe(1);
+  expect(url).toBe(specShellUrl);
+});
+
+test("attributes of shellConfig can be set correctly", async () => {
+  expect.assertions(1);
+  const server: Server = await createServer(specServerParams_4);
+  server.setShellLanguages(["en", "de"]);
+  const shellConfig = server.shellConfiguration;
+  expect(shellConfig).toMatchObject(specAdvanceShellConfig);
 });

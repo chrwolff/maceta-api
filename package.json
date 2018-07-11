@@ -2,35 +2,30 @@
   "name": "maceta",
   "version": "1.0.0",
   "description": "Testbed for Fiori Applications",
-  "main": "main.js",
+  "main": "js/serverFactory.js",
   "author": "Christian Wolff",
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "compile": "tsc",
-    "test": "jest",
-    "start": "node main.js"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
     "@types/node": "^10.5.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "jest": "22.4.4",
+    "ts-jest": "^23.0.0",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "directory-tree": "^2.1.0",
-    "eslint-plugin-prettier": "^2.6.0",
     "express": "^4.16.3",
     "fs-extra": "^6.0.1",
     "http": "^0.0.0",
-    "jest": "22.4.4",
-    "minimist": "^1.2.0",
-    "opn": "^5.3.0",
-    "path": "^0.12.7",
-    "prompt-radio": "^1.2.1",
-    "randomstring": "^1.1.5",
-    "readline-ui": "^2.2.3",
-    "ts-jest": "^23.0.0",
-    "typescript": "^2.9.2"
-  },
-  "dependencies": {}
+    "path": "^0.12.7"
+  }
 }

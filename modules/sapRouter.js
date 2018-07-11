@@ -9,7 +9,7 @@ module.exports = function({ apiRoutes, configuration }) {
   apiRoutes.all("/sap/public/bc/ui5_ui5/*", (req, res) => {
     let fullPath = url.parse(req.url).pathname;
     fullPath = path.join(
-      configuration.localLib,
+      configuration.localLibraryPath,
       fullPath
         .split("/")
         .slice(5)

@@ -3,7 +3,12 @@ const directoryTree = require("directory-tree");
 
 const odataBasePath = "/sap/opu/odata/";
 
-module.exports = function({ app, path }) {
+export interface MacetaODataServer {
+  create();
+  namespace: string;
+}
+
+export function startODataRouter({ app, path }) {
   if (path == undefined || !fileSystem.pathExistsSync(path)) {
     return;
   }
@@ -17,8 +22,8 @@ module.exports = function({ app, path }) {
     .forEach(child => {
       let service = require(child.path);
       if ("Server" in service) {
-        let serverArray;
-        if (typeof service.Server === "array") {
+        let serverArray: Array<MacetaODataServer>;
+        if (service.Server instanceof Array) {
           serverArray = service.Server;
         } else {
           serverArray = [service.Server];

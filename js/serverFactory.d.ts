@@ -1,26 +1,29 @@
+import { ServerConfiguration } from "./serverMain";
+export declare enum ServerErrors {
+    manifestNotFound = "manifest.json not found",
+    manifestContainsNoId = "manifest contains no id"
+}
 export interface ServerParameters {
     componentPath: string;
+    localLibraryPath: string;
+    oDataPath?: string;
     hostname?: string;
     port?: number;
-}
-export interface RuntimeDetails {
-    baseUrl: string;
-    indexUrl: string;
-    shellUrl: string;
+    createShellConfig?: boolean;
 }
 export interface Server {
-    start(): Promise<RuntimeDetails>;
+    start(): Promise<string>;
     stop(): Promise<void>;
-    configuration: ServerParameters;
+    addResourcePath(ResourcePath: any): void;
+    setShellLanguages(Array: any): object;
+    shellConfiguration: object;
+    serverConfiguration: ServerConfiguration;
+    errorPromise: Promise<boolean>;
 }
-declare class Server_Impl implements Server {
-    readonly serverParameters: ServerParameters;
-    private stopFunction;
-    constructor(serverParameters: ServerParameters);
-    readonly configuration: ServerParameters;
-    start(): Promise<RuntimeDetails>;
-    stop(): Promise<void>;
+export interface ResourcePath {
+    namespace: string;
+    path: string;
 }
-export declare function createServer(params: ServerParameters): Server_Impl;
+export declare function createServer(params: ServerParameters): Promise<Server>;
 export declare function setServerMock(mock: any): void;
-export {};
+export declare function setFilesystemMock(mock: any): void;
