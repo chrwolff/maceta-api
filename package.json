@@ -1,7 +1,7 @@
 {
-  "name": "maceta",
+  "name": "maceta-api",
   "version": "1.0.0",
-  "description": "Testbed for Fiori Applications",
+  "description": "API for Maceta",
   "main": "js/serverFactory.js",
   "author": "Christian Wolff",
   "license": "MIT",

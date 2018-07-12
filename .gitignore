@@ -1,9 +1,3 @@
 node_modules
 yarn-error.log
 .vscode
-ui5-lib
-tests
-
-config.template.json
-config.json
-main.js
