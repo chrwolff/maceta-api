@@ -30,11 +30,11 @@ module.exports = function({ apiRoutes, configuration, shellConfiguration }) {
             comments: false,
             sourceFileName: urlPath,
             minified: true,
-            presets: [path.join(__dirname, "../node_modules/babel-preset-env")],
+            presets: [path.join(__dirname, "../../babel-preset-env")],
             plugins: [
               path.join(
                 __dirname,
-                "../node_modules/babel-plugin-transform-object-rest-spread"
+                "../../babel-plugin-transform-object-rest-spread"
               )
             ]
           });
