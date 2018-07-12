@@ -17,10 +17,11 @@ export enum ServerErrors {
 export interface ServerParameters {
   componentPath: string;
   localLibraryPath: string;
+  shellConfiguration: boolean | string;
+  shellId?: string;
   oDataPath?: string;
   hostname?: string;
   port?: number;
-  createShellConfig?: boolean;
 }
 
 export interface Server {
@@ -83,7 +84,7 @@ class Server_Impl implements Server {
         } else {
           return reject(ServerErrors.manifestContainsNoId);
         }
-        await this.createShellConfig(serverParameters.createShellConfig);
+        await this.createShellConfig(serverParameters.shellConfiguration);
         this.addResourcePath({
           namespace: this._componentId,
           path: this._serverConfiguration.componentPath
@@ -103,8 +104,12 @@ class Server_Impl implements Server {
     return this._serverConfiguration;
   }
 
-  private createShellConfig(createShellConfig) {
-    if (createShellConfig) {
+  private createShellConfig(shellConfiguration) {
+    if (!shellConfiguration) {
+      return;
+    }
+
+    if (typeof shellConfiguration === "boolean") {
       this._shellConfiguration = {
         default: {
           app: {

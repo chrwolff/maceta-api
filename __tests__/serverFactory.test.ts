@@ -32,7 +32,8 @@ const specServerParams_1: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
   localLibraryPath: "./" + randomstring.generate(),
   hostname: randomstring.generate(),
-  port: 3000
+  port: 3000,
+  shellConfiguration: false
 };
 
 const specServerConfig_1: ServerConfiguration = {
@@ -52,18 +53,20 @@ const specServerConfig_1: ServerConfiguration = {
 
 const specServerParams_2: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
-  localLibraryPath: ""
+  localLibraryPath: "",
+  shellConfiguration: false
 };
 
 const specServerParams_3: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
-  localLibraryPath: ""
+  localLibraryPath: "",
+  shellConfiguration: false
 };
 
 const specServerParams_4: ServerParameters = {
   componentPath: specServerParams_1.componentPath,
   localLibraryPath: "",
-  createShellConfig: true
+  shellConfiguration: true
 };
 
 const fsMock = {
