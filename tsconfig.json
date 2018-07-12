@@ -5,14 +5,14 @@
     "module": "commonjs",
     "declaration": true,
     "experimentalDecorators": true,
-    "outDir": "testApp/odata",
-    "moduleResolution": "node"
+    "outDir": "js"
   },
   "include": [
-    "testApp/odata-src/*.ts"
+    "ts/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "lib"
+    "ui5-lib",
+    "js"
   ]
 }
