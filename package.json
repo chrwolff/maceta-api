@@ -1,6 +1,6 @@
 {
   "name": "maceta-api",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "API for Maceta",
   "main": "js/serverFactory.js",
   "author": "Christian Wolff",
