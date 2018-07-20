@@ -1,10 +1,19 @@
 {
   "name": "maceta-api",
-  "version": "1.0.0",
-  "description": "API for Maceta",
+  "version": "0.0.2",
+  "description": "API for maceta",
   "main": "js/serverFactory.js",
-  "author": "Christian Wolff",
+  "author": {
+    "name": "Christian Wolff",
+    "email": "chrwolff@gmx.net"
+  },
   "license": "MIT",
+  "keywords": [
+    "UI5",
+    "OpenUI5",
+    "SAP",
+    "Fiori"
+  ],
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "compile": "tsc",

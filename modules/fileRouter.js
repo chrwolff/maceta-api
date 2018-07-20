@@ -5,10 +5,10 @@ const getMimeType = require("./mimeTypes");
 const babel = require("babel-core");
 
 module.exports = function({ apiRoutes, configuration, shellConfiguration }) {
-  function resolveFile({ reqPath, res, urlPath, babelJit = true }) {
+  function resolveFile({ reqPath, res, urlPath, babelJit = false }) {
     var fullPath = reqPath;
     if (!path.isAbsolute(reqPath)) {
-      fullPath = path.join(configuration.componentPath, reqPath);
+      fullPath = path.join(configuration.basePath, reqPath);
     }
 
     fileSystem.readFile(fullPath, function(err, data) {

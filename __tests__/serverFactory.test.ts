@@ -31,8 +31,10 @@ const componentId = randomstring.generate();
 const specServerParams_1: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
   localLibraryPath: "./" + randomstring.generate(),
+  oDataPath: "./" + randomstring.generate(),
   hostname: randomstring.generate(),
-  port: 3000
+  port: 3000,
+  shellConfiguration: false
 };
 
 const specServerConfig_1: ServerConfiguration = {
@@ -47,23 +49,31 @@ const specServerConfig_1: ServerConfiguration = {
     [componentId]: path.join(process.cwd(), specServerParams_1.componentPath)
   },
   shellId: null,
-  oDataPath: null
+  oDataPath: path.join(process.cwd(), specServerParams_1.oDataPath)
 };
 
 const specServerParams_2: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
-  localLibraryPath: ""
+  localLibraryPath: "",
+  shellConfiguration: false
 };
 
 const specServerParams_3: ServerParameters = {
   componentPath: "./" + randomstring.generate(),
-  localLibraryPath: ""
+  localLibraryPath: "",
+  shellConfiguration: false
 };
 
 const specServerParams_4: ServerParameters = {
   componentPath: specServerParams_1.componentPath,
   localLibraryPath: "",
-  createShellConfig: true
+  shellConfiguration: true
+};
+
+const specServerParams_5: ServerParameters = {
+  componentPath: "./" + randomstring.generate(),
+  localLibraryPath: "",
+  shellConfiguration: true
 };
 
 const fsMock = {
@@ -102,6 +112,27 @@ const fsMock = {
         resolve({
           "sap.app": {}
         });
+      } else if (
+        file ===
+        path.join(
+          process.cwd(),
+          specServerParams_5.componentPath,
+          "manifest.json"
+        )
+      ) {
+        resolve({
+          "sap.app": {
+            id: componentId
+          },
+          "sap.ui5": {
+            dependencies: {
+              libs: {
+                "sap.m": {},
+                "abc.def": {}
+              }
+            }
+          }
+        });
       }
     });
   }
@@ -118,13 +149,26 @@ const specSimpleShellConfig = {
   }
 };
 
+const specAdvanceShellConfigPath = randomstring.generate();
 const specAdvanceShellConfig = {
   default: {
     app: {
       languages: ["en", "de"],
       ui5ComponentName: componentId
     },
-    resourcePath: {}
+    resourcePath: {
+      "abc.def": {
+        file: true
+      }
+    }
+  },
+  sapServer: {
+    resourcePath: {
+      "abc.def": {
+        path: specAdvanceShellConfigPath,
+        file: false
+      }
+    }
   }
 };
 
@@ -182,6 +226,38 @@ test("attributes of shellConfig can be set correctly", async () => {
   expect.assertions(1);
   const server: Server = await createServer(specServerParams_4);
   server.setShellLanguages(["en", "de"]);
-  const shellConfig = server.shellConfiguration;
-  expect(shellConfig).toMatchObject(specAdvanceShellConfig);
+  server.createResourcePath({
+    namespace: "abc.def",
+    path: specAdvanceShellConfigPath
+  });
+  server.createShellConfigurationKey("sapServer");
+  server.createResourcePath({
+    shellConfigurationKey: "sapServer",
+    namespace: "abc.def",
+    sapServer: true,
+    path: specAdvanceShellConfigPath
+  });
+  expect(server.shellConfiguration).toMatchObject(specAdvanceShellConfig);
+});
+
+test("if not setting a path for a foreign namespace throws an error", async () => {
+  expect.assertions(1);
+  try {
+    const server = await createServer(specServerParams_5);
+    await server.start();
+  } catch (e) {
+    expect(e).toBe(ServerErrors.pathForNamespaceNotSet);
+  }
+});
+
+test("if setting a path for a foreign namespace it works", async () => {
+  expect.assertions(1);
+  const server = await createServer(specServerParams_5);
+  server.createResourcePath({
+    namespace: "abc.def",
+    path: specAdvanceShellConfigPath
+  });
+  startServer.mockClear();
+  await server.start();
+  expect(startServer.mock.calls.length).toBe(1);
 });
