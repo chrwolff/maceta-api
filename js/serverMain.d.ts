@@ -1,5 +1,6 @@
 export interface ServerConfiguration {
     componentPath: string;
+    basePath: string;
     localLibraryPath: string;
     hostname: string;
     port: number;

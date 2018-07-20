@@ -9,6 +9,7 @@ export declare enum ServerErrors {
 }
 export interface ServerParameters {
     componentPath: string;
+    basePath?: string;
     localLibraryPath: string;
     shellConfiguration: boolean;
     oDataPath?: string;

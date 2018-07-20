@@ -1,9 +1,5 @@
-Maceta is a node.js testbed for SAP Fiori applications.
+## The maceta API
 
-It provides
-- an API to start a web server that re-routes all http requests to the local file system
-- an out-of-the-box CLI to start the server
+Used by [maceta](https://www.npmjs.com/package/maceta).
 
-Test
-- Correctness of API and server start
-- Correctness of server and response to requests
+Documentation of this API will follow soon!

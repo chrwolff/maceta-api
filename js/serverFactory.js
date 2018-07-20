@@ -29,6 +29,8 @@ class Server_Impl {
         this._nonSapNamespaces = [];
         this._serverConfiguration = {
             hostname: serverConfiguration.hostname || "localhost",
+            basePath: this.makePathAbolute(serverConfiguration.basePath) ||
+                this.makePathAbolute(serverConfiguration.componentPath),
             port: serverConfiguration.port || 3000,
             componentPath: this.makePathAbolute(serverConfiguration.componentPath),
             localLibraryPath: this.makePathAbolute(serverConfiguration.localLibraryPath),

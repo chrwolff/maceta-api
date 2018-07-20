@@ -20,6 +20,7 @@ export enum ServerErrors {
 
 export interface ServerParameters {
   componentPath: string;
+  basePath?: string;
   localLibraryPath: string;
   shellConfiguration: boolean;
   oDataPath?: string;
@@ -58,6 +59,9 @@ class Server_Impl implements Server {
   constructor(serverConfiguration: ServerParameters) {
     this._serverConfiguration = {
       hostname: serverConfiguration.hostname || "localhost",
+      basePath:
+        this.makePathAbolute(serverConfiguration.basePath) ||
+        this.makePathAbolute(serverConfiguration.componentPath),
       port: serverConfiguration.port || 3000,
       componentPath: this.makePathAbolute(serverConfiguration.componentPath),
       localLibraryPath: this.makePathAbolute(
